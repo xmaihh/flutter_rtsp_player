@@ -151,7 +151,6 @@ jobs:
       - name: Install dependencies
         run: |
           flutter pub get
-          flutter pub run build_runner build
 
       # 根据矩阵配置，为不同平台执行构建命令
       - name: Build Android APK
