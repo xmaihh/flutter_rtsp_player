@@ -163,7 +163,7 @@ jobs:
 
       - name: Build Web
         if: matrix.name == 'web'
-        run: flutter build web --base-href=/FlutterHub/
+        run: flutter build web --base-href=/flutter_rtsp_player/
 
       - name: Build Linux
         if: matrix.name == 'linux'
