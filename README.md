@@ -50,14 +50,8 @@ Summary
 - Web: Uses [video_player](https://pub.dev/packages/video_player).
 - Windows: ~~Uses [dart_vlc](https://pub.dev/packages/dart_vlc).~~ Uses [medit-kit](https://pub.dev/packages/media_kit).
 
-<div style="display: flex; align-items: center;">
-    <div style="position: relative; display: inline-block; margin: 0 10px;">
-        <img src="docs/screenshot/add_rtsp_screen.png" alt="pic1" style="display: block; max-width: 100%; height: auto;">
-    </div>
-    <div style="position: relative; display: inline-block; margin: 0 10px;">
-        <img src="docs/screenshot/home_scren.png" alt="pic2" style="display: block; max-width: 100%; height: auto;">
-    </div>
-    <div style="position: relative; display: inline-block; margin: 0 10px;">
-        <img src="docs/screenshot/player_screen.png" alt="pic3" style="display: block; max-width: 100%; height: auto;">
-    </div>
-</div>
+
+
+| ![pic1](docs/screenshot/add_rtsp_screen.png) | ![pic2](docs/screenshot/home_scren.png) | ![pic3](docs/screenshot/player_screen.png) |
+|---------------------------------------------|-------------------------------------------|---------------------------------------------|
+
