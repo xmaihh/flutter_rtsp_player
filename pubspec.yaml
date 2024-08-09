@@ -13,16 +13,19 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   provider: ^6.0.0
+  shared_preferences: ^2.3.1
   video_player: ^2.3.0
-  flutter_vlc_player: ^8.0.1
-  path_provider: ^2.0.11
-  permission_handler: ^10.3.1
+  video_player_web: ^2.3.2
+  flutter_vlc_player: ^7.4.2
+  media_kit: ^1.1.10
+  media_kit_video: ^1.2.4
+  media_kit_libs_video: ^1.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/rtsp_stream.dart';
+import '../services/rtsp_service.dart';
 
 class AddRtspScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -30,8 +34,9 @@ class AddRtspScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // Save the RTSP URL
-                    // Navigator.pop(context);
+                    final newStream = RtspStream(url: _urlController.text);
+                    Provider.of<RtspService>(context, listen: false).addStream(newStream);
+                    Navigator.pop(context);
                   }
                 },
                 child: Text('Add Stream'),

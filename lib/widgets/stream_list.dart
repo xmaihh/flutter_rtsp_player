@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../services/rtsp_service.dart';
 import 'stream_item.dart';
 
 class StreamList extends StatelessWidget {
-  final RtspService _rtspService = RtspService();
-
   @override
   Widget build(BuildContext context) {
+    final rtspService = Provider.of<RtspService>(context);
     return ListView.builder(
-      itemCount: _rtspService.streams.length,
+      itemCount: rtspService.streams.length,
       itemBuilder: (context, index) {
-        final stream = _rtspService.streams[index];
+        final stream = rtspService.streams[index];
         return StreamItem(stream: stream);
       },
     );

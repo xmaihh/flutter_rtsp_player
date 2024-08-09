@@ -1,5 +1,12 @@
 
 class MediaService {
+  void play() {
+    // implement play
+  }
+  void pause() {
+    // implement pause
+  }
+
   void togglePictureInPicture() {
     // Implement PiP functionality
   }
