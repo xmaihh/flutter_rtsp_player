@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rtsp_player/common/custom_video_player_controller.dart';
+import 'package:flutter_rtsp_player/common/video_player_controller.dart';
 
 import '../common/video_player_factory.dart';
 import '../models/rtsp_stream.dart';
@@ -15,12 +15,13 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-  late CustomVideoPlayerController videoPlayerController;
+  late VideoPlayerController videoPlayerController;
 
   @override
   void initState() {
     super.initState();
     videoPlayerController = VideoPlayerFactory.create(url: widget.stream.url);
+    videoPlayerController.initialize();
   }
 
   @override

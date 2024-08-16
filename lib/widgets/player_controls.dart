@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rtsp_player/common/custom_video_player_controller.dart';
+import 'package:flutter_rtsp_player/common/video_player_controller.dart';
 
 import '../services/media_service.dart';
 
 class PlayerControls extends StatelessWidget {
-  final CustomVideoPlayerController videoPlayerController;
+  final VideoPlayerController videoPlayerController;
 
   PlayerControls({required this.videoPlayerController});
 

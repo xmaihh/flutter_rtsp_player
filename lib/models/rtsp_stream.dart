@@ -1,23 +1,20 @@
 class RtspStream {
   final String url;
-  final String? username;
-  final String? password;
+  final String? title;
 
-  RtspStream({required this.url, this.username, this.password});
+  RtspStream({required this.url, this.title});
 
   Map<String, dynamic> toJson() {
     return {
       'url': url,
-      'username': username,
-      'password': password,
+      'title': title,
     };
   }
 
   factory RtspStream.fromJson(Map<String, dynamic> json) {
     return RtspStream(
       url: json['url'],
-      username: json['username'],
-      password: json['password'],
+      title: json['title'],
     );
   }
 }
