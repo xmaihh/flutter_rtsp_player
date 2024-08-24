@@ -1,27 +1,32 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 
 abstract class VideoPlayerController {
-  Widget buildVideoPlayer(BuildContext context);
+  Widget build(BuildContext context, {Widget Function(VideoState)? controls});
 
   Future<void> initialize();
 
-  void play();
+  Future<void> play();
 
-  void pause();
+  Future<void> pause();
 
-  void seek(Duration position);
+  Future<void> playOrPause();
 
-  void startRecording();
+  Future<void> seek(Duration position);
 
-  void stopRecording();
+  Future<void> startRecording();
 
-  Future<void> takeScreenshot();
+  Future<void> stopRecording();
 
-  void setVolume(double volume);
+  Future<Uint8List?> captureScreenshot();
 
-  void dispose();
-// Duration get position;
-// Duration get duration;
+  Future<void> setVolume(double volume);
+
+  Future<void> dispose();
+// Duration get currentPosition;
+// Duration get totalDuration;
 // bool get isPlaying;
 // double get volume;
 }

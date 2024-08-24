@@ -51,7 +51,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     //   aspectRatio: 16 / 9,
                     //   placeholder: Center(child: CircularProgressIndicator()),
                     // ),
-                    videoPlayerController.buildVideoPlayer(context),
+                    videoPlayerController.build(context),
               ),
             ),
             PlayerControls(videoPlayerController: videoPlayerController),

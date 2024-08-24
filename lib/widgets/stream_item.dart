@@ -43,7 +43,10 @@ class _StreamItemState extends State<StreamItem> {
   Widget build(BuildContext context) {
     return ListTile(
       subtitle: Text(widget.stream.url),
-      title: Text(widget.stream.title ?? 'No title',style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium?.fontSize),),
+      title: Text(
+        widget.stream.title ?? 'No title',
+        style: TextStyle(fontSize: Theme.of(context).textTheme.titleMedium?.fontSize),
+      ),
       leading: SizedBox(
         width: 100,
         height: 56,
@@ -53,33 +56,38 @@ class _StreamItemState extends State<StreamItem> {
                 ? const Center(child: CircularProgressIndicator())
                 : const Icon(Icons.video_library),
       ),
-      trailing: IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: () async {
-          // Show confirmation dialog
-          final confirmed = await showDialog<bool>(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Delete Stream'),
-              content: Text('Are you sure you want to delete this stream?'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text('Cancel'),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () async {
+              // Show confirmation dialog
+              final confirmed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Delete Stream'),
+                  content: Text('Are you sure you want to delete this stream?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text('Delete'),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text('Delete'),
-                ),
-              ],
-            ),
-          );
+              );
 
-          // If confirmed, proceed with deletion
-          if (confirmed == true) {
-            Provider.of<RtspService>(context, listen: false).removeStream(widget.stream);
-          }
-        },
+              // If confirmed, proceed with deletion
+              if (confirmed == true) {
+                Provider.of<RtspService>(context, listen: false).removeStream(widget.stream);
+              }
+            },
+          ),
+        ],
       ),
       onTap: () {
         Navigator.push(

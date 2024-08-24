@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rtsp_player/common/video_player_controller.dart';
 import 'package:media_kit/media_kit.dart';
@@ -10,7 +12,8 @@ class UniversalVideoPlayerController implements VideoPlayerController {
   bool _isRecording = false;
 
   UniversalVideoPlayerController({required this.url}) {
-    _player = Player();
+    _player = Player(
+    );
     _videoController = VideoController(_player);
   }
 
@@ -20,70 +23,82 @@ class UniversalVideoPlayerController implements VideoPlayerController {
   }
 
   @override
-  Widget buildVideoPlayer(BuildContext context) {
+  Widget build(BuildContext context, {Widget Function(VideoState)? controls}) {
     return Video(
       controller: _videoController,
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height,
       fit: BoxFit.contain,
+      controls:controls,
     );
   }
 
   @override
-  void play() {
+  Future<void> play() async {
     _player.play();
   }
 
   @override
-  void pause() {
+  Future<void> pause() async {
     _player.pause();
   }
 
   @override
-  void seek(Duration position) {
+  Future<void> playOrPause() async {
+    _player.playOrPause();
+  }
+
+  @override
+  Future<void> seek(Duration position) async {
     _player.seek(position);
   }
 
   @override
-  void startRecording() {
+  Future<void> startRecording() async {
     // Implement recording start logic here
     _isRecording = true;
     print("Recording started");
   }
 
   @override
-  void stopRecording() {
+  Future<void> stopRecording() async {
     // Implement recording stop logic here
     _isRecording = false;
     print("Recording stopped");
   }
 
   @override
-  Future<void> takeScreenshot() async {
+  Future<Uint8List?> captureScreenshot() async {
     // Implement screenshot logic here
-    _player.screenshot();
+    return _player.screenshot();
     print("Screenshot taken");
   }
 
   @override
-  void setVolume(double volume) {
+  Future<void> setVolume(double volume) async {
     _player.setVolume(volume);
   }
 
   @override
-  void dispose() {
+  Future<void> dispose() async {
     _player.dispose();
   }
 
-  // @override
-  // Duration get position => _player.stream.position;
-  //
-  // @override
-  // Duration get duration => _player.duration;
-  //
-  // @override
-  // bool get isPlaying => _player.state == PlayerState.playing;
-  //
-  // @override
-  // double get volume => _player.volume;
+// @override
+// Duration get position => _player.stream.position;
+//
+// @override
+// Duration get duration => _player.duration;
+//
+// @override
+// bool get isPlaying => _player.state == PlayerState.playing;
+//
+// @override
+// double get volume => _player.volume;
 }

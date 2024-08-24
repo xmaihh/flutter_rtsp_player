@@ -1,4 +1,4 @@
-import 'package:flutter_rtsp_player/common/video_player_controller_impl.dart';
+import 'package:flutter_rtsp_player/common/universal_video_player_controller.dart';
 
 import 'video_player_controller.dart';
 
