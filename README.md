@@ -52,3 +52,22 @@ Summary
 
 | ![pic1](docs/screenshot/add_rtsp_screen.png) | ![pic2](docs/screenshot/home_scren.png) | ![pic3](docs/screenshot/player_screen.png) |
 |---------------------------------------------|-------------------------------------------|---------------------------------------------|
+
+RTSP Test Server
+
+Details for RTSP Test Server:  https://github.com/RSATom/rtsp-test-server
+
+Available urls:
+
+- rtsp://localhost:8554/bars
+- rtsp://localhost:8554/white
+- rtsp://localhost:8554/black
+- rtsp://localhost:8554/red
+- rtsp://localhost:8554/green
+- rtsp://localhost:8554/blue
+- rtsp://localhost:8554/bars-vp8
+- rtsp://localhost:8554/white-vp8
+- rtsp://localhost:8554/black-vp8
+- rtsp://localhost:8554/red-vp8
+- rtsp://localhost:8554/green-vp8
+- rtsp://localhost:8554/blue-vp8
