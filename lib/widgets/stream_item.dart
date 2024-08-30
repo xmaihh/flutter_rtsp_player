@@ -1,17 +1,23 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rtsp_player/screens/single_stream_screen.dart';
+import 'package:flutter_rtsp_player/widgets/stream_thumbnail.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:provider/provider.dart';
 
 import '../models/rtsp_stream.dart';
-import '../screens/player_screen.dart';
 import '../services/rtsp_service.dart';
 
 class StreamItem extends StatefulWidget {
   final RtspStream stream;
+  final bool showDeleteButton;
+  final bool isSelectionMode;
+  final bool isSelected;
+  final void Function(bool, RtspStream) onStreamSelectionChanged;
 
-  const StreamItem({super.key, required this.stream});
+  const StreamItem({super.key, required this.stream, required this.showDeleteButton, required this.isSelectionMode, required this.isSelected, required this.onStreamSelectionChanged});
 
   @override
   State<StatefulWidget> createState() => _StreamItemState();
@@ -49,8 +55,10 @@ class _StreamItemState extends State<StreamItem> {
       ),
       leading: SizedBox(
         width: 100,
-        height: 56,
-        child: _thumbnailBytes != null
+        height: 56.0,
+        child:
+        // VideoThumbnail( videoUrl: widget.stream.url,),
+        _thumbnailBytes != null
             ? Image.memory(_thumbnailBytes!, fit: BoxFit.cover)
             : _isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -59,44 +67,52 @@ class _StreamItemState extends State<StreamItem> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () async {
-              // Show confirmation dialog
-              final confirmed = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('Delete Stream'),
-                  content: Text('Are you sure you want to delete this stream?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text('Delete'),
-                    ),
-                  ],
-                ),
-              );
+          if (widget.isSelectionMode)
+            Checkbox(
+              value: widget.isSelected,
+              onChanged: (value) => widget.onStreamSelectionChanged(value!, widget.stream),
+            ),
+          if (widget.showDeleteButton && !widget.isSelectionMode)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                // Show confirmation dialog
+                final confirmed = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Delete Stream'),
+                    content: Text('Are you sure you want to delete this stream?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text('Delete'),
+                      ),
+                    ],
+                  ),
+                );
 
-              // If confirmed, proceed with deletion
-              if (confirmed == true) {
-                Provider.of<RtspService>(context, listen: false).removeStream(widget.stream);
-              }
-            },
-          ),
+                // If confirmed, proceed with deletion
+                if (confirmed == true) {
+                  Provider.of<RtspService>(context, listen: false).removeStream(widget.stream);
+                }
+              },
+            ),
         ],
       ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PlayerScreen(stream: widget.stream),
-          ),
-        );
-      },
+      onTap: widget.isSelectionMode
+          ? () => widget.onStreamSelectionChanged(!widget.isSelected, widget.stream)
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SingleStreamScreen(stream: widget.stream),
+                ),
+              );
+            },
     );
   }
 
@@ -111,11 +127,11 @@ class _StreamItemState extends State<StreamItem> {
       _player ??= Player();
       await _player!.open(Media(widget.stream.url));
 
-      // 等待一小段时间确保视频已加载
-      await Future.delayed(const Duration(milliseconds: 10500));
-
+      final _controller = VideoController(_player!);
+      await _controller.waitUntilFirstFrameRendered;
       final bytes = await _player!.screenshot(format: 'image/jpeg');
-      print("bytes：${bytes?.length}");
+      debugPrint("预览图大小bytes：${bytes?.length}");
+      await _controller.player.pause();
       if (mounted) {
         setState(() {
           _thumbnailBytes = bytes;

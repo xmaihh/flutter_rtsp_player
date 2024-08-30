@@ -47,15 +47,21 @@ my_rtsp_player/
 
 Summary
 - Android/iOS: ~~Uses [flutter_vlc_player](https://pub.dev/packages/flutter_vlc_player).~~ Uses [medit-kit](https://pub.dev/packages/media_kit).
-- ~~Web: Uses [video_player](https://pub.dev/packages/video_player).~~  [[#Stack Overflow]How to play RTSP streams in Flutter WEB.](https://stackoverflow.com/questions/69524526/how-to-play-rtsp-streams-in-flutter-web/70382420#70382420)
+- ~~Web: Uses [video_player](https://pub.dev/packages/video_player).~~  👉👉👉[[Stack Overflow]How to play RTSP streams in Flutter WEB.](https://stackoverflow.com/questions/69524526/how-to-play-rtsp-streams-in-flutter-web/70382420#70382420)
 - Windows, macOS, Linux: ~~Uses [dart_vlc](https://pub.dev/packages/dart_vlc).~~ Uses [medit-kit](https://pub.dev/packages/media_kit).
 
 | ![pic1](docs/screenshot/add_rtsp_screen.png) | ![pic2](docs/screenshot/home_scren.png) | ![pic3](docs/screenshot/player_screen.png) |
 |---------------------------------------------|-------------------------------------------|---------------------------------------------|
 
-RTSP Test Server
+<details>
+
+<summary> RTSP Test Server </summary>
 
 Details for RTSP Test Server:  https://github.com/RSATom/rtsp-test-server
+
+</details>
+
+[![rtsp-test-server](https://snapcraft.io/rtsp-test-server/badge.svg)](https://snapcraft.io/rtsp-test-server)
 
 Available urls:
 

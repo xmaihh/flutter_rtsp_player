@@ -6,19 +6,20 @@ import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
 class UniversalVideoPlayerController implements VideoPlayerController {
-  final String url;
   late final Player _player;
   late final VideoController _videoController;
   bool _isRecording = false;
 
-  UniversalVideoPlayerController({required this.url}) {
+  Player get player => _player;
+
+  UniversalVideoPlayerController() {
     _player = Player(
     );
     _videoController = VideoController(_player);
   }
 
   @override
-  Future<void> initialize() async {
+  Future<void> open(String url) async {
     await _player.open(Media(url));
   }
 

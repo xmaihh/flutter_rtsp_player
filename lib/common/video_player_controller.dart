@@ -6,7 +6,7 @@ import 'package:media_kit_video/media_kit_video.dart';
 abstract class VideoPlayerController {
   Widget build(BuildContext context, {Widget Function(VideoState)? controls});
 
-  Future<void> initialize();
+  Future<void> open(String url);
 
   Future<void> play();
 

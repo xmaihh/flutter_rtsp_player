@@ -4,9 +4,15 @@ import 'package:provider/provider.dart';
 import '../models/rtsp_stream.dart';
 import '../services/rtsp_service.dart';
 
-class AddRtspScreen extends StatelessWidget {
+class AddRtspScreen extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _AddRtspScreenState();
+}
+
+class _AddRtspScreenState extends State<AddRtspScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +36,14 @@ class AddRtspScreen extends StatelessWidget {
                   return null;
                 },
               ),
+              SizedBox(height: 8),
+              TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'Title (optional)'),
+              ),
               SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    final newStream = RtspStream(url: _urlController.text);
-                    Provider.of<RtspService>(context, listen: false).addStream(newStream);
-                    Navigator.pop(context);
-                  }
-                },
+                onPressed: _submit,
                 child: Text('Add Stream'),
               ),
             ],
@@ -46,5 +51,28 @@ class AddRtspScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _submit() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final rtspUrl = _urlController.text;
+      final title = _titleController.text;
+
+      final newStream = RtspStream(url: rtspUrl, title: title.isNotEmpty ? title : _generateTitleFromRTSP(rtspUrl));
+      Provider.of<RtspService>(context, listen: false).addStream(newStream);
+      Navigator.pop(context);
+    }
+  }
+
+  String _generateTitleFromRTSP(String rtspUrl) {
+    try {
+      final uri = Uri.parse(rtspUrl);
+      final path = uri.pathSegments.isNotEmpty ? uri.pathSegments.last : 'Stream';
+      return '${uri.host} - $path';
+    } catch (e) {
+      // Log the error and return a default title
+      print('Error parsing RTSP URL: $e');
+      return 'Invalid RTSP Stream';
+    }
   }
 }
