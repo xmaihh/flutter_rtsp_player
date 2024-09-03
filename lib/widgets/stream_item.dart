@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rtsp_player/screens/single_stream_screen.dart';
-import 'package:flutter_rtsp_player/widgets/stream_thumbnail.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:provider/provider.dart';
@@ -56,9 +55,7 @@ class _StreamItemState extends State<StreamItem> {
       leading: SizedBox(
         width: 100,
         height: 56.0,
-        child:
-        // VideoThumbnail( videoUrl: widget.stream.url,),
-        _thumbnailBytes != null
+        child: _thumbnailBytes != null
             ? Image.memory(_thumbnailBytes!, fit: BoxFit.cover)
             : _isLoading
                 ? const Center(child: CircularProgressIndicator())

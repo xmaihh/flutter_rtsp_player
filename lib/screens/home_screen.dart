@@ -81,6 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildStreamList(List<RtspStream> _streams) {
     return ListView.builder(
+        // Optionally, set cacheExtent for better performance
+        cacheExtent: 50.0, // Adjust this value as needed
         itemCount: _streams.length,
         itemBuilder: (context, index) {
           return StreamItem(stream: _streams[index], showDeleteButton: showDeleteButton, isSelectionMode: isSelectionMode, isSelected: selectedStreams.contains(_streams[index]), onStreamSelectionChanged: (_, stream) => toggleStreamSelection(stream));
