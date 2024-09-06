@@ -10,11 +10,11 @@ class UniversalVideoPlayerController implements VideoPlayerController {
   late final VideoController _videoController;
   bool _isRecording = false;
 
+  @override
   Player get player => _player;
 
   UniversalVideoPlayerController() {
-    _player = Player(
-    );
+    _player = Player();
     _videoController = VideoController(_player);
   }
 
@@ -27,16 +27,10 @@ class UniversalVideoPlayerController implements VideoPlayerController {
   Widget build(BuildContext context, {Widget Function(VideoState)? controls}) {
     return Video(
       controller: _videoController,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       fit: BoxFit.contain,
-      controls:controls,
+      controls: controls,
     );
   }
 
@@ -100,6 +94,6 @@ class UniversalVideoPlayerController implements VideoPlayerController {
 // @override
 // bool get isPlaying => _player.state == PlayerState.playing;
 //
-// @override
-// double get volume => _player.volume;
+  @override
+  double get volume => _player.state.volume;
 }

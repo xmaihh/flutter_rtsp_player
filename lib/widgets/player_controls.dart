@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rtsp_player/common/video_player_controller.dart';
+import 'package:flutter_rtsp_player/widgets/volume_slider.dart';
+import 'package:media_kit/media_kit.dart';
 
-import '../services/media_service.dart';
-
-class PlayerControls extends StatelessWidget {
+class PlayerControls extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
 
   PlayerControls({required this.videoPlayerController});
 
-  final MediaService _mediaService = MediaService();
+  @override
+  State<StatefulWidget> createState() => _PlayerControlsState();
+}
+
+class _PlayerControlsState extends State<PlayerControls> {
+  late final Player _player;
+  double _currentVolume = 0.0;
+  bool _playing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _player = widget.videoPlayerController.player;
+    _currentVolume = _player.state.volume;
+    _player.stream.volume.listen((volume) {
+      if (mounted) {
+        setState(() {
+          _currentVolume = volume;
+        });
+      }
+    });
+    _player.stream.playing.listen((playing) {
+      if (mounted) {
+        setState(() {
+          _playing = playing;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,36 +44,60 @@ class PlayerControls extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
-          icon: Icon(Icons.play_arrow),
+          icon: Icon(
+            _playing ? Icons.pause : Icons.play_arrow,
+            color: Colors.white,
+          ),
           onPressed: () {
             // Implement play functionality
-            videoPlayerController.play();
+            widget.videoPlayerController.playOrPause();
           },
         ),
+        // IconButton(
+        //   icon: Icon(
+        //     Icons.camera_alt,
+        //     color: Colors.white,
+        //   ),
+        //   onPressed: () {},
+        // ),
+        // IconButton(
+        //   icon: Icon(
+        //     Icons.fiber_manual_record,
+        //     color: Colors.white,
+        //   ),
+        //   onPressed: () {},
+        // ),
         IconButton(
-          icon: Icon(Icons.pause),
+          icon: Icon(
+            _currentVolume == 0 ? Icons.volume_off : (_currentVolume > 0.50 ? Icons.volume_up : Icons.volume_down),
+            color: Colors.white,
+          ),
           onPressed: () {
-            // Implement pause functionality
-            videoPlayerController.pause();
+            _player.setVolume(_currentVolume == 0 ? 65 : 0);
           },
         ),
-        IconButton(
-          icon: Icon(Icons.camera),
-          onPressed: () {
-            _mediaService.captureScreenshot();
-          },
+        // VolumeControlWidget(),
+        Column(
+          children: [
+            VolumeSlider(
+              volume: (_currentVolume > 0) ? (_currentVolume / 100) : 0,
+              maxVolume: 1,
+              size: 100,
+              onVolumeChanged: (newVolume) {
+                _player.setVolume(newVolume * 100);
+              },
+            ),
+            SizedBox(
+              height: 16,
+            )
+          ],
         ),
-        IconButton(
-          icon: Icon(Icons.videocam),
-          onPressed: () {
-            _mediaService.startRecording();
-          },
+        SizedBox(
+          width: 8,
         ),
-        IconButton(
-          icon: Icon(Icons.volume_up),
-          onPressed: () {
-            _mediaService.adjustVolume(0.5); // Example volume level
-          },
+        Text(
+          '${(_currentVolume).round()}%',
+          style: TextStyle(color: Colors.white, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
         ),
       ],
     );

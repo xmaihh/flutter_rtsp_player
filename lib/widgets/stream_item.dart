@@ -121,9 +121,10 @@ class _StreamItemState extends State<StreamItem> {
     });
 
     try {
-      _player ??= Player();
+      _player ??= Player()
+      ..setVolume(0);
       await _player!.open(Media(widget.stream.url));
-
+      
       final _controller = VideoController(_player!);
       await _controller.waitUntilFirstFrameRendered;
       final bytes = await _player!.screenshot(format: 'image/jpeg');

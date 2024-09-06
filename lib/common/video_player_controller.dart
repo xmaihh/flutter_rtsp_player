@@ -1,9 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 
 abstract class VideoPlayerController {
+  Player get player;
+
   Widget build(BuildContext context, {Widget Function(VideoState)? controls});
 
   Future<void> open(String url);
@@ -25,8 +28,9 @@ abstract class VideoPlayerController {
   Future<void> setVolume(double volume);
 
   Future<void> dispose();
+
+  double get volume;
 // Duration get currentPosition;
 // Duration get totalDuration;
 // bool get isPlaying;
-// double get volume;
 }
