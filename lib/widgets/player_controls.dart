@@ -1,5 +1,7 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rtsp_player/common/video_player_controller.dart';
+import 'package:flutter_rtsp_player/utils/image_saver.dart';
 import 'package:flutter_rtsp_player/widgets/volume_slider.dart';
 import 'package:media_kit/media_kit.dart';
 
@@ -53,13 +55,13 @@ class _PlayerControlsState extends State<PlayerControls> {
             widget.videoPlayerController.playOrPause();
           },
         ),
-        // IconButton(
-        //   icon: Icon(
-        //     Icons.camera_alt,
-        //     color: Colors.white,
-        //   ),
-        //   onPressed: () {},
-        // ),
+        IconButton(
+          icon: Icon(
+            Icons.camera_alt,
+            color: Colors.white,
+          ),
+          onPressed: takeSnapshort,
+        ),
         // IconButton(
         //   icon: Icon(
         //     Icons.fiber_manual_record,
@@ -101,5 +103,13 @@ class _PlayerControlsState extends State<PlayerControls> {
         ),
       ],
     );
+  }
+
+  Future<void> takeSnapshort() async {
+    final imageBytes = await widget.videoPlayerController.player.screenshot();
+    final fileName = ImageSaver.generateFileName();
+    print(fileName);
+    String result = await ImageSaver.saveImage(imageBytes!, fileName);
+    BotToast.showText(text: result);
   }
 }

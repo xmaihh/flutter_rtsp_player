@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rtsp_player/screens/home_screen.dart';
@@ -32,6 +33,8 @@ class MyApp extends StatelessWidget {
         value: rtspService,
         child: MaterialApp(
           title: 'RTSP Player',
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -50,5 +50,7 @@
             <key>NSAllowsArbitraryLoads</key>
             <true/>
         </dict>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Need access to your photo album to save the image</string>
 </dict>
 </plist>
