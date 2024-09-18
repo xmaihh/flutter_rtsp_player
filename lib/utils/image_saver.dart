@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_rtsp_player/platform/image_saver_desktop.dart';
 import 'package:flutter_rtsp_player/platform/image_saver_mobile.dart';
-import 'package:flutter_rtsp_player/platform/image_saver_web.dart';
+import 'package:flutter_rtsp_player/platform/image_saver_stub.dart' if (dart.library.html) 'package:flutter_rtsp_player/platform/image_saver_web.dart';
 
 class ImageSaver {
   static String generateFileName({String prefix = 'flsnap', String extension = 'jpg'}) {
@@ -26,7 +26,7 @@ class ImageSaver {
   }
 
   static String _saveImageWeb(Uint8List imageBytes, String fileName) {
-    return ImageSaverWeb.save(imageBytes, fileName);
+    return saveImageImpl(imageBytes, fileName);
   }
 
   static Future<String> _saveImageDesktop(Uint8List imageBytes, String fileName) async {
