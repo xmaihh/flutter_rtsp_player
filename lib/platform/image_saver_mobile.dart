@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ImageSaverMobile {
   static Future<String> save(Uint8List imageBytes, String fileName) async {
     if (await _requestPermission()) {
       try {
-        final result = await ImageGallerySaver.saveImage(imageBytes, name: fileName, isReturnImagePathOfIOS: true);
+        final result = await ImageGallerySaverPlus.saveImage(imageBytes, name: fileName, isReturnImagePathOfIOS: true);
         return '$result';
       } catch (e) {
         return 'Failed. $e';
