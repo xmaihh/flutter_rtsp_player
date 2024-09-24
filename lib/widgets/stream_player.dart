@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rtsp_player/common/video_player_controller.dart';
-import 'package:flutter_rtsp_player/common/video_player_factory.dart';
 import 'package:flutter_rtsp_player/models/rtsp_stream.dart';
+import 'package:flutter_rtsp_player/widgets/player_controls.dart';
+import 'package:flutter_rtsp_player/widgets/realtime_clock.dart';
 
 class StreamPlayer extends StatefulWidget {
   final RtspStream stream;
   final bool showControls;
+  final VideoPlayerController videoPlayerController;
 
   StreamPlayer({
     required this.stream,
+    required this.videoPlayerController,
     this.showControls = false,
   });
 
@@ -17,13 +20,9 @@ class StreamPlayer extends StatefulWidget {
 }
 
 class _StreamPlayerState extends State<StreamPlayer> {
-  late VideoPlayerController videoPlayerController;
-
   @override
   void initState() {
     super.initState();
-    videoPlayerController = VideoPlayerFactory.create();
-    videoPlayerController.open(widget.stream.url);
   }
 
   @override
@@ -31,14 +30,8 @@ class _StreamPlayerState extends State<StreamPlayer> {
     super.didUpdateWidget(oldWidget);
     if (widget.stream.url != oldWidget.stream.url) {
       // 检查如果传递的参数有变化，更新内部状态
-      videoPlayerController.open(widget.stream.url);
+      widget.videoPlayerController.open(widget.stream.url);
     }
-  }
-
-  @override
-  void dispose() {
-    videoPlayerController.dispose();
-    super.dispose();
   }
 
   @override
@@ -48,7 +41,7 @@ class _StreamPlayerState extends State<StreamPlayer> {
         Container(
           color: Colors.black,
           child: Center(
-            child: videoPlayerController.build(context),
+            child: widget.videoPlayerController.build(context),
           ),
         ),
         Positioned(
@@ -63,24 +56,7 @@ class _StreamPlayerState extends State<StreamPlayer> {
           Positioned(
             bottom: 8,
             left: 8,
-            right: 8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.volume_up, color: Colors.white),
-                  onPressed: () {
-                    // 实现音量调节逻辑
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.fullscreen, color: Colors.white),
-                  onPressed: () {
-                    // 实现全屏逻辑
-                  },
-                ),
-              ],
-            ),
+            child: PlayerControls(videoPlayerController: widget.videoPlayerController,volumeSliderSize: 85,),
           ),
       ],
     );

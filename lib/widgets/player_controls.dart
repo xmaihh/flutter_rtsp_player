@@ -7,8 +7,9 @@ import 'package:media_kit/media_kit.dart';
 
 class PlayerControls extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
+  final double volumeSliderSize;
 
-  PlayerControls({required this.videoPlayerController});
+  PlayerControls({required this.videoPlayerController, this.volumeSliderSize = 100.0});
 
   @override
   State<StatefulWidget> createState() => _PlayerControlsState();
@@ -17,7 +18,7 @@ class PlayerControls extends StatefulWidget {
 class _PlayerControlsState extends State<PlayerControls> {
   late final Player _player;
   double _currentVolume = 0.0;
-  bool _playing = false;
+  bool _playing = true;
 
   @override
   void initState() {
@@ -84,7 +85,7 @@ class _PlayerControlsState extends State<PlayerControls> {
             VolumeSlider(
               volume: (_currentVolume > 0) ? (_currentVolume / 100) : 0,
               maxVolume: 1,
-              size: 100,
+              size: widget.volumeSliderSize,
               onVolumeChanged: (newVolume) {
                 _player.setVolume(newVolume * 100);
               },
